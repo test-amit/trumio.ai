@@ -24,14 +24,6 @@ class DashboardPage {
     return this.page.isVisible(this.profileCompletionBar);
   }
 
-  async isAssessmentButtonVisible() {
-    return this.page.isVisible(this.takeAssessmentButton);
-  }
-
-  async isActiveProjectsVisible() {
-    return this.page.isVisible(this.activeProjects);
-  }
-
   async isRewardsSectionVisible() {
     return this.page.isVisible(this.rewardsSection);
   }

@@ -30,16 +30,6 @@ test.describe('Dashboard Page Tests', () => {
     expect(visible).toBeTruthy();
   });
 
-//   test('should display active projects section', async () => {
-//     const visible = await dashboardPage.isActiveProjectsVisible();
-//     expect(visible).toBeTruthy();
-//   });
-
-//   test('should display Take Assessment button', async () => {
-//     const visible = await dashboardPage.isAssessmentButtonVisible();
-//     expect(visible).toBeTruthy();
-//   });
-
   test('should show rewards section', async () => {
     const visible = await dashboardPage.isRewardsSectionVisible();
     expect(visible).toBeTruthy();
