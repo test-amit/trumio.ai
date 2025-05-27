@@ -9,30 +9,33 @@ test.describe('Marketplace Page Tests', () => {
   test.beforeEach(async ({ page }) => {
     loginPage = new LoginPage(page);
     marketplacePage = new MarketplacePage(page);
-  
+
     await loginPage.goto();
     await loginPage.login('qanayak@outlook.com', 'Itzmeamit@123');
     await page.waitForURL('**/dashboard');
-  
+
     console.log('Clicking Marketplace...');
-    await page.locator('text=Marketplace').first().click({ force: true });
+    await marketplacePage.navigateToMarketplace();
     console.log('Clicked Marketplace. Waiting for page to load...');
-  
-    await page.waitForURL('**/marketplace/all_listings', { timeout: 10000 });
-  
-    // Now just wait for a generic sidebar link to be visible (more stable)
-    await page.waitForSelector('a[href="/marketplace/all_listings"]', {
-      state: 'visible',
-      timeout: 10000
-    });
-  });
-  
-  
-
-  test('should land on marketplace page after clicking sidebar', async ({ page }) => {
-    expect(page.url()).toContain('/marketplace/all_listings');
-    const sidebarActive = await marketplacePage.isMarketplaceSidebarActive();
-    expect(sidebarActive).toBeTruthy();
   });
 
+  test('search input should be visible and editable', async () => {
+    await marketplacePage.goToTeamsPage();
+    await marketplacePage.fillSearchInput('AI Geeks');
+    await expect(marketplacePage.searchInput).toHaveValue('AI Geeks');
+  });
+
+  test('searching for "AI Geeks" should display the corresponding team', async () => {
+    await marketplacePage.goToTeamsPage();
+    await marketplacePage.fillSearchInput('AI Geeks');
+    await marketplacePage.pressEnterInSearch();
+    await expect(await marketplacePage.isTeamVisible('AI Geeks')).toBeVisible();
+  });
+
+  test('searching for a non-existent team should return no results', async () => {
+    await marketplacePage.goToTeamsPage();
+    await marketplacePage.fillSearchInput('NonExistentTeam123');
+    await marketplacePage.pressEnterInSearch();
+    await expect(await marketplacePage.isNoResultVisible()).toBeVisible();
+  });
 });
